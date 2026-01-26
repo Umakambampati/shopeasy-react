@@ -1,14 +1,34 @@
-// src/pages/Contact.jsx
-import React, { useState } from 'react'
+// src/pages/Contact.jsx - RESPONSIVE VERSION
+import React, { useState, useEffect } from 'react'
 
 function Contact() {
+  const [screenSize, setScreenSize] = useState('desktop')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   })
-  
   const [submitted, setSubmitted] = useState(false)
+  
+  // Check screen size on mount and resize
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth
+      if (width <= 480) {
+        setScreenSize('mobile')
+      } else if (width <= 768) {
+        setScreenSize('tablet')
+      } else if (width <= 1024) {
+        setScreenSize('small-desktop')
+      } else {
+        setScreenSize('desktop')
+      }
+    }
+    
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
 
   const handleChange = (e) => {
     setFormData({
@@ -28,6 +48,149 @@ function Contact() {
       setSubmitted(false)
     }, 3000)
   }
+
+  // Responsive styles
+  const getResponsiveStyles = () => {
+    const baseStyles = {
+      page: {
+        paddingTop: '70px',
+        minHeight: '100vh',
+        backgroundColor: '#f8f9fa'
+      },
+      container: {
+        maxWidth: screenSize === 'desktop' ? '1200px' : '100%',
+        margin: '0 auto',
+        padding: screenSize === 'mobile' ? '20px 15px' : 
+                screenSize === 'tablet' ? '30px 20px' : '40px 20px'
+      },
+      header: {
+        textAlign: 'center',
+        marginBottom: screenSize === 'mobile' ? '30px' : '50px'
+      },
+      title: {
+        fontSize: screenSize === 'mobile' ? '2rem' : 
+                 screenSize === 'tablet' ? '2.2rem' : '2.5rem',
+        color: '#333',
+        marginBottom: screenSize === 'mobile' ? '8px' : '10px'
+      },
+      subtitle: {
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.1rem',
+        color: '#666'
+      },
+      content: {
+        display: 'grid',
+        gridTemplateColumns: screenSize === 'mobile' ? '1fr' : '1fr 1fr',
+        gap: screenSize === 'mobile' ? '30px' : '50px'
+      },
+      infoSection: {
+        backgroundColor: 'white',
+        padding: screenSize === 'mobile' ? '25px' : '40px',
+        borderRadius: '10px',
+        boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
+      },
+      formSection: {
+        backgroundColor: 'white',
+        padding: screenSize === 'mobile' ? '25px' : '40px',
+        borderRadius: '10px',
+        boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
+      },
+      sectionTitle: {
+        fontSize: screenSize === 'mobile' ? '1.5rem' : '1.8rem',
+        color: '#333',
+        marginBottom: screenSize === 'mobile' ? '20px' : '30px',
+        paddingBottom: '10px',
+        borderBottom: '2px solid #28a745'
+      },
+      contactInfo: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: screenSize === 'mobile' ? '20px' : '30px'
+      },
+      contactItem: {
+        display: 'flex',
+        gap: screenSize === 'mobile' ? '15px' : '20px',
+        alignItems: 'flex-start'
+      },
+      contactIcon: {
+        fontSize: screenSize === 'mobile' ? '1.8rem' : '2rem',
+        color: '#28a745',
+        flexShrink: 0
+      },
+      contactTitle: {
+        fontSize: screenSize === 'mobile' ? '1.1rem' : '1.2rem',
+        marginBottom: '8px',
+        color: '#333'
+      },
+      contactText: {
+        color: '#666',
+        lineHeight: '1.5',
+        margin: '3px 0',
+        fontSize: screenSize === 'mobile' ? '0.9rem' : '1rem'
+      },
+      form: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: screenSize === 'mobile' ? '20px' : '25px'
+      },
+      formGroup: {
+        display: 'flex',
+        flexDirection: 'column'
+      },
+      label: {
+        marginBottom: '8px',
+        fontWeight: '500',
+        color: '#333',
+        fontSize: screenSize === 'mobile' ? '0.95rem' : '1rem'
+      },
+      input: {
+        padding: screenSize === 'mobile' ? '10px' : '12px',
+        border: '1px solid #ddd',
+        borderRadius: '5px',
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.05rem'
+      },
+      textarea: {
+        padding: screenSize === 'mobile' ? '10px' : '12px',
+        border: '1px solid #ddd',
+        borderRadius: '5px',
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.05rem',
+        resize: 'vertical',
+        minHeight: '120px'
+      },
+      submitButton: {
+        padding: screenSize === 'mobile' ? '12px' : '15px',
+        backgroundColor: '#28a745',
+        color: 'white',
+        border: 'none',
+        borderRadius: '5px',
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.1rem',
+        cursor: 'pointer',
+        fontWeight: '500',
+        marginTop: '10px'
+      },
+      successMessage: {
+        textAlign: 'center',
+        padding: screenSize === 'mobile' ? '30px 20px' : '40px 20px',
+        backgroundColor: '#d4edda',
+        borderRadius: '10px',
+        color: '#155724'
+      },
+      successIcon: {
+        fontSize: screenSize === 'mobile' ? '3rem' : '4rem',
+        marginBottom: screenSize === 'mobile' ? '15px' : '20px'
+      },
+      successTitle: {
+        fontSize: screenSize === 'mobile' ? '1.5rem' : '1.8rem',
+        marginBottom: screenSize === 'mobile' ? '8px' : '10px'
+      },
+      successText: {
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.1rem'
+      }
+    }
+    
+    return baseStyles
+  }
+
+  const styles = getResponsiveStyles()
 
   return (
     <div style={styles.page}>
@@ -149,135 +312,8 @@ function Contact() {
       </div>
     </div>
   )
-}
 
-const styles = {
-  page: {
-    paddingTop: '70px',
-    minHeight: '100vh',
-    backgroundColor: '#f8f9fa'
-  },
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '30px 20px'
-  },
-  header: {
-    textAlign: 'center',
-    marginBottom: '50px'
-  },
-  title: {
-    fontSize: '2.5rem',
-    color: '#333',
-    marginBottom: '10px'
-  },
-  subtitle: {
-    fontSize: '1.1rem',
-    color: '#666'
-  },
-  content: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '50px'
-  },
-  infoSection: {
-    backgroundColor: 'white',
-    padding: '40px',
-    borderRadius: '10px',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
-  },
-  formSection: {
-    backgroundColor: 'white',
-    padding: '40px',
-    borderRadius: '10px',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
-  },
-  sectionTitle: {
-    fontSize: '1.8rem',
-    color: '#333',
-    marginBottom: '30px',
-    paddingBottom: '10px',
-    borderBottom: '2px solid #28a745'
-  },
-  contactInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '30px'
-  },
-  contactItem: {
-    display: 'flex',
-    gap: '20px',
-    alignItems: 'flex-start'
-  },
-  contactIcon: {
-    fontSize: '2rem',
-    color: '#28a745'
-  },
-  contactTitle: {
-    fontSize: '1.2rem',
-    marginBottom: '8px',
-    color: '#333'
-  },
-  contactText: {
-    color: '#666',
-    lineHeight: '1.5',
-    margin: '3px 0'
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '25px'
-  },
-  formGroup: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  label: {
-    marginBottom: '8px',
-    fontWeight: '500',
-    color: '#333'
-  },
-  input: {
-    padding: '12px',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-    fontSize: '1rem'
-  },
-  textarea: {
-    padding: '12px',
-    border: '1px solid #ddd',
-    borderRadius: '5px',
-    fontSize: '1rem',
-    resize: 'vertical'
-  },
-  submitButton: {
-    padding: '15px',
-    backgroundColor: '#28a745',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    fontSize: '1.1rem',
-    cursor: 'pointer',
-    fontWeight: '500'
-  },
-  successMessage: {
-    textAlign: 'center',
-    padding: '40px 20px',
-    backgroundColor: '#d4edda',
-    borderRadius: '10px',
-    color: '#155724'
-  },
-  successIcon: {
-    fontSize: '4rem',
-    marginBottom: '20px'
-  },
-  successTitle: {
-    fontSize: '1.8rem',
-    marginBottom: '10px'
-  },
-  successText: {
-    fontSize: '1.1rem'
-  }
+  
 }
 
 export default Contact

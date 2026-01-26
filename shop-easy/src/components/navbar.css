@@ -181,6 +181,7 @@
 @media (max-width: 480px) {
   .container {
     padding: 0 15px;
+
   }
   
   .nav-links {
@@ -190,6 +191,7 @@
   .cart-button {
     padding: 6px 12px;
     font-size: 0.8rem;
+    right:-70px;
   }
   
   .cart-count {

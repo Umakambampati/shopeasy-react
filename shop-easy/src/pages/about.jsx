@@ -1,7 +1,135 @@
-// src/pages/About.jsx
-import React from 'react'
+// src/pages/About.jsx - RESPONSIVE VERSION
+import React, { useState, useEffect } from 'react'
 
 function About() {
+  const [screenSize, setScreenSize] = useState('desktop')
+  
+  // Check screen size on mount and resize
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth
+      if (width <= 480) {
+        setScreenSize('mobile')
+      } else if (width <= 768) {
+        setScreenSize('tablet')
+      } else if (width <= 1024) {
+        setScreenSize('small-desktop')
+      } else {
+        setScreenSize('desktop')
+      }
+    }
+    
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
+
+  // Responsive styles
+  const getResponsiveStyles = () => {
+    const baseStyles = {
+      page: {
+        paddingTop: '70px',
+        minHeight: '100vh',
+        backgroundColor: '#f8f9fa'
+      },
+      container: {
+        maxWidth: screenSize === 'desktop' ? '1000px' : 
+                 screenSize === 'small-desktop' ? '900px' : '100%',
+        margin: '0 auto',
+        padding: screenSize === 'mobile' ? '20px 15px' : 
+                screenSize === 'tablet' ? '30px 20px' : '40px 20px'
+      },
+      hero: {
+        textAlign: 'center',
+        padding: screenSize === 'mobile' ? '40px 20px' : '60px 20px',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '10px',
+        marginBottom: screenSize === 'mobile' ? '30px' : '50px'
+      },
+      heroTitle: {
+        fontSize: screenSize === 'mobile' ? '2rem' : 
+                 screenSize === 'tablet' ? '2.5rem' : '3rem',
+        color: '#333',
+        marginBottom: screenSize === 'mobile' ? '10px' : '15px'
+      },
+      heroText: {
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.2rem',
+        color: '#666',
+        lineHeight: '1.5'
+      },
+      content: {
+        paddingBottom: screenSize === 'mobile' ? '40px' : '60px'
+      },
+      section: {
+        marginBottom: screenSize === 'mobile' ? '40px' : '60px'
+      },
+      sectionTitle: {
+        fontSize: screenSize === 'mobile' ? '1.5rem' : 
+                 screenSize === 'tablet' ? '1.8rem' : '2rem',
+        color: '#333',
+        marginBottom: screenSize === 'mobile' ? '15px' : '20px',
+        paddingBottom: '10px',
+        borderBottom: '2px solid #28a745'
+      },
+      sectionText: {
+        fontSize: screenSize === 'mobile' ? '1rem' : '1.1rem',
+        lineHeight: '1.6',
+        color: '#555',
+        marginBottom: screenSize === 'mobile' ? '12px' : '15px'
+      },
+      featuresGrid: {
+        display: 'grid',
+        gridTemplateColumns: screenSize === 'mobile' ? '1fr' : 
+                           screenSize === 'tablet' ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+        gap: screenSize === 'mobile' ? '20px' : '30px',
+        marginTop: screenSize === 'mobile' ? '20px' : '30px'
+      },
+      feature: {
+        textAlign: 'center',
+        padding: screenSize === 'mobile' ? '20px' : '30px',
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
+      },
+      featureIcon: {
+        fontSize: screenSize === 'mobile' ? '2.5rem' : '3rem',
+        marginBottom: screenSize === 'mobile' ? '15px' : '20px'
+      },
+      featureTitle: {
+        fontSize: screenSize === 'mobile' ? '1.1rem' : '1.3rem',
+        marginBottom: screenSize === 'mobile' ? '10px' : '15px',
+        color: '#333'
+      },
+      featureText: {
+        color: '#666',
+        lineHeight: '1.5',
+        fontSize: screenSize === 'mobile' ? '0.9rem' : '1rem'
+      },
+      valuesList: {
+        display: 'flex',
+        flexDirection: screenSize === 'mobile' ? 'column' : 'row',
+        gap: screenSize === 'mobile' ? '20px' : '25px',
+        flexWrap: screenSize === 'mobile' ? 'nowrap' : 'wrap'
+      },
+      valueItem: {
+        padding: screenSize === 'mobile' ? '20px' : '25px',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '8px',
+        flex: screenSize === 'mobile' ? 'none' : '1',
+        minWidth: screenSize === 'mobile' ? '100%' : '250px'
+      },
+      valueTitle: {
+        fontSize: screenSize === 'mobile' ? '1.1rem' : '1.3rem',
+        color: '#28a745',
+        marginBottom: screenSize === 'mobile' ? '8px' : '10px'
+      }
+    }
+    
+    return baseStyles
+  }
+
+  const styles = getResponsiveStyles()
+
   return (
     <div style={styles.page}>
       <div style={styles.container}>
@@ -87,94 +215,6 @@ function About() {
       </div>
     </div>
   )
-}
-
-const styles = {
-  page: {
-    paddingTop: '70px',
-    minHeight: '100vh'
-  },
-  container: {
-    maxWidth: '1000px',
-    margin: '0 auto',
-    padding: '0 20px'
-  },
-  hero: {
-    textAlign: 'center',
-    padding: '60px 20px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '10px',
-    marginBottom: '50px'
-  },
-  heroTitle: {
-    fontSize: '3rem',
-    color: '#333',
-    marginBottom: '15px'
-  },
-  heroText: {
-    fontSize: '1.2rem',
-    color: '#666'
-  },
-  content: {
-    paddingBottom: '60px'
-  },
-  section: {
-    marginBottom: '60px'
-  },
-  sectionTitle: {
-    fontSize: '2rem',
-    color: '#333',
-    marginBottom: '20px',
-    paddingBottom: '10px',
-    borderBottom: '2px solid #28a745'
-  },
-  sectionText: {
-    fontSize: '1.1rem',
-    lineHeight: '1.6',
-    color: '#555',
-    marginBottom: '15px'
-  },
-  featuresGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '30px',
-    marginTop: '30px'
-  },
-  feature: {
-    textAlign: 'center',
-    padding: '30px',
-    backgroundColor: 'white',
-    borderRadius: '10px',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
-  },
-  featureIcon: {
-    fontSize: '3rem',
-    marginBottom: '20px'
-  },
-  featureTitle: {
-    fontSize: '1.3rem',
-    marginBottom: '15px',
-    color: '#333'
-  },
-  featureText: {
-    color: '#666',
-    lineHeight: '1.5'
-  },
-  valuesList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '25px'
-  },
-  valueItem: {
-    padding: '25px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px'
-  },
-  valueTitle: {
-    fontSize: '1.3rem',
-    color: '#28a745',
-    marginBottom: '10px'
-  }
 }
 
 export default About
